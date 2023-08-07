@@ -7,7 +7,8 @@ export class bookingResponse {
         public partner: Partner,
         public request: bookingRequest,
         public answeredAt: Date = new Date(),
-        public isDelegated: boolean
+        public isDelegated: boolean = false,
+        public comment: string
     ) {
         
     }

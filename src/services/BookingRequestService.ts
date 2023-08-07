@@ -12,13 +12,13 @@ export class BookingRequestService {
   constructor(db: MockDB) {
       this.db = db;
   }
-  async createBookingRequest(id: number, partner: Partner[], task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest> {
+  async createBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest> {
     let NewBookingRequest = new bookingRequest(id, partner, task, responses);
     this.db.bookingRequests.requestdata.push(NewBookingRequest);
     //make it so that a new request is added to the partner's requests array
-    partner.forEach(partner => {
-      partner.requests ? partner.requests.push(NewBookingRequest) : partner.requests = [NewBookingRequest];
-    });
+
+    partner.requests ? partner.requests.push(NewBookingRequest) : partner.requests = [NewBookingRequest];
+    
     //make it so that a new request is added to the task's requests array
     task.requests ? task.requests.push(NewBookingRequest) : task.requests = [NewBookingRequest];
     return NewBookingRequest;
@@ -29,7 +29,7 @@ export class BookingRequestService {
     return bookingRequest|| null;
   }
 
-  async updateBookingRequest(id: number, partner: Partner[], task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest| null> {
+  async updateBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest| null> {
     this.db.bookingRequests.requestdata.forEach(bookingRequest => {
       if (bookingRequest.id === id) {
         bookingRequest.partner = partner;

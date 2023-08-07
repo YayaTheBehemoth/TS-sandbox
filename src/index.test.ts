@@ -52,7 +52,7 @@ describe('Class relations tests', () => {
         const task = new bookingTask(2, "Task2", TaskStatus.OPEN,customer);
         const partnerarray = [partner];
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
-        const request = new bookingRequest(1, partnerarray, task);
+        const request = new bookingRequest(1, partner, task);
         partner.requests ? partner.requests.push(request) : partner.requests = [request];
         expect(request.task).toBe(task);
     })
@@ -61,11 +61,11 @@ describe('Class relations tests', () => {
         const partner = new Partner(2, "Partner2");
         const customer = new Customer(3, "Jill");
         const task = new bookingTask(3, "Task3",TaskStatus.OPEN, customer);
-        let partnerarray = [partner];
+        
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
-        const request = new bookingRequest(2, partnerarray, task);
+        const request = new bookingRequest(2, partner, task);
         partner.requests ? partner.requests.push(request) : partner.requests = [request];
-        const response = new bookingResponse(1, partner, request,undefined, true);
+        const response = new bookingResponse(1, partner, request,undefined, true,"hej");
         request.responses ? request.responses.push(response) : request.responses = [response];
         expect(response.request).toBe(request);
         expect(response.answeredAt).toBeInstanceOf(Date);  // check if 'answeredAt' is a Date object
@@ -85,9 +85,9 @@ describe('Class relations tests', () => {
         const task = new bookingTask(6, "Task6", TaskStatus.OPEN,customer);
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
         const partner = new Partner(3, "Partner3");
-        const partnerarray = [partner];
-        const request1 = new bookingRequest(5, partnerarray, task);
-        const request2 = new bookingRequest(6, partnerarray, task);
+       
+        const request1 = new bookingRequest(5, partner ,task);
+        const request2 = new bookingRequest(6, partner, task);
         partner.requests ? partner.requests.push(request1, request2) : partner.requests = [request1, request2];
         expect(partner.requests).toContain(request1);
         expect(partner.requests).toContain(request2);

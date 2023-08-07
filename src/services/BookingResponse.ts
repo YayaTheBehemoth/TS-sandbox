@@ -11,8 +11,8 @@ export class BookingResponseService {
   constructor(db: MockDB) {
       this.db = db;
   }
-  async createBookingResponse(id: number,partner: Partner, request: bookingRequest, isDelegated: boolean, answeredAt:Date): Promise<bookingResponse> {
-    let NewBookingResponse = new bookingResponse(id,partner,request, answeredAt, isDelegated);
+  async createBookingResponse(id: number,partner: Partner, request: bookingRequest, isDelegated: boolean, answeredAt:Date, comment:string): Promise<bookingResponse> {
+    let NewBookingResponse = new bookingResponse(id,partner,request, answeredAt, isDelegated, comment);
     this.db.bookingResponses.responsedata.push(NewBookingResponse);
     NewBookingResponse.request.responses ? NewBookingResponse.request.responses.push(NewBookingResponse) : NewBookingResponse.request.responses = [NewBookingResponse]; //make it so that a new response is added to the request's responses array
     return NewBookingResponse;
@@ -23,11 +23,10 @@ export class BookingResponseService {
     return bookingRepsonse|| null;
   }
 
-  async updateBookingResponse(id: number, request: bookingRequest, isDelegated: boolean): Promise<bookingResponse| null> {
+  async updateBookingResponse(id: number, request: bookingRequest): Promise<bookingResponse| null> {
     this.db.bookingResponses.responsedata.forEach(bookingResponse => {
       if (bookingResponse.id === id) {
         bookingResponse.request = request;
-        bookingResponse.isDelegated = isDelegated;
       }
     });
     return this.getBookingResponse(id);
@@ -39,5 +38,14 @@ export class BookingResponseService {
         this.db.bookingResponses.responsedata.splice(this.db.bookingResponses.responsedata.indexOf(bookingResponse), 1);
       }
     });
-    
-}}
+  }
+  
+  async delegateBookingResponse(id: number): Promise<bookingResponse| null> {
+    this.db.bookingResponses.responsedata.forEach(bookingResponse => {
+      if (bookingResponse.id === id) {
+        bookingResponse.isDelegated = true;
+      }
+    });
+    return this.getBookingResponse(id);
+  }
+}
