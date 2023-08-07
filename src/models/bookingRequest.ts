@@ -7,6 +7,6 @@ export class bookingRequest {
         public id: number,
         public partner: Partner,
         public task: bookingTask,
-        public responses: bookingResponse[] = []
+        public responses?: bookingResponse
     ) { }
 }

@@ -4,17 +4,29 @@ import { bookingTask } from '../models/bookingTask';
 import { Partner } from '../models/Partner';
 import { bookingRequest } from '../models/bookingRequest';
 import { bookingResponse } from '../models/bookingResponse';
+import { BookingRequestService } from './BookingRequestService';
 import {MockDB} from '../mockDB/mockDB';
+
 export class BookingResponseService {
   private db: MockDB;
+  private bookingRequestService: BookingRequestService;
 
   constructor(db: MockDB) {
       this.db = db;
+      this.bookingRequestService = new BookingRequestService(db);
+
   }
   async createBookingResponse(id: number,partner: Partner, request: bookingRequest, isDelegated: boolean, answeredAt:Date, comment:string): Promise<bookingResponse> {
     let NewBookingResponse = new bookingResponse(id,partner,request, answeredAt, isDelegated, comment);
     this.db.bookingResponses.responsedata.push(NewBookingResponse);
+    let requestToRespondTo = await this.bookingRequestService.getBookingRequest(request.id);
+    if (requestToRespondTo) {
+      requestToRespondTo.responses = NewBookingResponse;
+  }
+
+    /*
     NewBookingResponse.request.responses ? NewBookingResponse.request.responses.push(NewBookingResponse) : NewBookingResponse.request.responses = [NewBookingResponse]; //make it so that a new response is added to the request's responses array
+    */
     return NewBookingResponse;
   }
   
