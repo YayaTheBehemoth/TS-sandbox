@@ -1,9 +1,9 @@
 // PartnerService.ts
 import { Customer } from '../models/Customer';
-import { bookingTask } from '../models/Task';
+import { bookingTask } from '../models/bookingTask';
 import { Partner } from '../models/Partner';
-import { bookingRequest } from '../models/Request';
-import { bookingResponse } from '../models/Response';
+import { bookingRequest } from '../models/bookingRequest';
+import { bookingResponse } from '../models/bookingResponse';
 import {MockDB} from '../mockDB/mockDB';
 
 export class PartnerService {
@@ -35,7 +35,6 @@ export class PartnerService {
   }
 
   async deletePartner(id: number): Promise<void> {
-    // TODO: implement the delete logic
     this.db.partners.partnerdata.forEach(partner => {
       if (partner.id === id) {
         this.db.partners.partnerdata.splice(this.db.partners.partnerdata.indexOf(partner), 1);

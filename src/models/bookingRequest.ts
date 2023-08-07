@@ -1,11 +1,11 @@
-//Ideally named "request" but that conflicts with some existing stuff"
-import { bookingTask } from './Task';
+
+import { bookingTask } from './bookingTask';
 import { Partner } from './Partner';
-import { bookingResponse } from './Response';
+import { bookingResponse } from './bookingResponse';
 export class bookingRequest {
     constructor(
         public id: number,
-        public partner: Partner,
+        public partner: Partner[]=[],
         public task: bookingTask,
         public responses: bookingResponse[] = []
     ) { }

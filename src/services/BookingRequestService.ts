@@ -1,9 +1,9 @@
 // BookingRequestService.ts
 import { Customer } from '../models/Customer';
-import { bookingTask } from '../models/Task';
+import { bookingTask } from '../models/bookingTask';
 import { Partner } from '../models/Partner';
-import { bookingRequest } from '../models/Request';
-import { bookingResponse } from '../models/Response';
+import { bookingRequest } from '../models/bookingRequest';
+import { bookingResponse } from '../models/bookingResponse';
 import {MockDB} from '../mockDB/mockDB';
 
 export class BookingRequestService {
@@ -12,9 +12,15 @@ export class BookingRequestService {
   constructor(db: MockDB) {
       this.db = db;
   }
-  async createBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest> {
+  async createBookingRequest(id: number, partner: Partner[], task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest> {
     let NewBookingRequest = new bookingRequest(id, partner, task, responses);
     this.db.bookingRequests.requestdata.push(NewBookingRequest);
+    //make it so that a new request is added to the partner's requests array
+    partner.forEach(partner => {
+      partner.requests ? partner.requests.push(NewBookingRequest) : partner.requests = [NewBookingRequest];
+    });
+    //make it so that a new request is added to the task's requests array
+    task.requests ? task.requests.push(NewBookingRequest) : task.requests = [NewBookingRequest];
     return NewBookingRequest;
   }
 
@@ -23,7 +29,7 @@ export class BookingRequestService {
     return bookingRequest|| null;
   }
 
-  async updateBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest| null> {
+  async updateBookingRequest(id: number, partner: Partner[], task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest| null> {
     this.db.bookingRequests.requestdata.forEach(bookingRequest => {
       if (bookingRequest.id === id) {
         bookingRequest.partner = partner;

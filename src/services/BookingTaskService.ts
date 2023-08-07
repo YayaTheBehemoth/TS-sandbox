@@ -1,19 +1,22 @@
 // BookingTaskService.ts
 import { Customer } from '../models/Customer';
-import { bookingTask } from '../models/Task';
+import { bookingTask } from '../models/bookingTask';
 import { Partner } from '../models/Partner';
-import { bookingRequest } from '../models/Request';
-import { bookingResponse } from '../models/Response';
+import { bookingRequest } from '../models/bookingRequest';
+import { bookingResponse } from '../models/bookingResponse';
 import {MockDB} from '../mockDB/mockDB';
+import { Task } from '../models/Task';
+import { TaskStatus } from '../models/Task';
 export class BookingTaskService {
   private db: MockDB;
 
   constructor(db: MockDB) {
       this.db = db;
   }
-  async createBookingTask(id: number, name: string, customer: Customer, requests: bookingRequest[]): Promise<bookingTask> {
-    let newBookingTask = new bookingTask(id, name, customer, requests);
+  async createBookingTask(id: number, name: string, taskStatus:TaskStatus,customer: Customer, requests: bookingRequest[]): Promise<bookingTask> {
+    let newBookingTask = new bookingTask(id, name, taskStatus,customer, requests);
     this.db.bookingTasks.taskdata.push(newBookingTask);
+    customer.tasks ? customer.tasks.push(newBookingTask) : customer.tasks = [newBookingTask]; //make it so that a new task is added to the customer's tasks array
     return newBookingTask;
   }
 

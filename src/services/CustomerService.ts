@@ -1,9 +1,9 @@
 // CustomerService.ts
 import { Customer } from '../models/Customer';
-import { bookingTask } from '../models/Task';
+import { bookingTask } from '../models/bookingTask';
 import { Partner } from '../models/Partner';
-import { bookingRequest } from '../models/Request';
-import { bookingResponse } from '../models/Response';
+import { bookingRequest } from '../models/bookingRequest';
+import { bookingResponse } from '../models/bookingResponse';
 import {MockDB} from '../mockDB/mockDB';
 export class CustomerService {
   private db: MockDB;

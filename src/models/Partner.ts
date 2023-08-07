@@ -1,4 +1,4 @@
-import { bookingRequest } from './Request';
+import { bookingRequest } from './bookingRequest';
 export class Partner {
     constructor(
         public id: number,

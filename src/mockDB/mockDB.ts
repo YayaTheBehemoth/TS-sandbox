@@ -1,8 +1,8 @@
 import { Customer } from '../models/Customer';
-import { bookingTask } from '../models/Task';
+import { bookingTask } from '../models/bookingTask';
 import { Partner } from '../models/Partner';
-import { bookingRequest } from '../models/Request';
-import { bookingResponse } from '../models/Response';
+import { bookingRequest } from '../models/bookingRequest';
+import { bookingResponse } from '../models/bookingResponse';
 /*
 class CustomerTable {
     customers: Customer[] = [
@@ -112,12 +112,12 @@ export class MockDB {
 
         const task1 = new bookingTask(1, "Task1", customer1, []);
         const task2 = new bookingTask(2, "Task2", customer2, []);
+        const partnerarr = [partner1, partner2];
+        const request1 = new bookingRequest(1, partnerarr, task1, []);
+        const request2 = new bookingRequest(2, partnerarr, task2, []);
 
-        const request1 = new bookingRequest(1, partner1, task1, []);
-        const request2 = new bookingRequest(2, partner2, task2, []);
-
-        const response1 = new bookingResponse(1, request1, false);
-        const response2 = new bookingResponse(2, request2, true);
+        const response1 = new bookingResponse(1,partner1 ,request1, false);
+        const response2 = new bookingResponse(2, partner2,request2, true);
 
         this.customers.customerdata.push(customer1, customer2);
         this.partners.partnerdata.push(partner1, partner2);

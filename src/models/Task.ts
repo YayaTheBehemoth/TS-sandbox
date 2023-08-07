@@ -1,10 +1,13 @@
-import { bookingRequest } from './Request';
-import { Customer } from './Customer';
-export class bookingTask {
+export abstract class Task{
     constructor(
         public id: number,
         public name: string,
-        public customer: Customer,
-        public requests: bookingRequest[] = []
-    ) { }
+        public status: TaskStatus = TaskStatus.OPEN,
+ 
+    ) {}
+}
+// to represent a tasks status
+export enum TaskStatus {
+    OPEN = 'open',
+    CLOSED = 'closed',
 }
