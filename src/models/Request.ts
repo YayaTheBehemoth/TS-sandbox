@@ -1,12 +1,12 @@
 //Ideally named "request" but that conflicts with some existing stuff"
-import { Task } from './Task';
+import { bookingTask } from './Task';
 import { Partner } from './Partner';
-import { taskResponse } from './Response';
-export class taskRequest {
+import { bookingResponse } from './Response';
+export class bookingRequest {
     constructor(
         public id: number,
         public partner: Partner,
-        public task: Task,
-        public responses: taskResponse[] = []
+        public task: bookingTask,
+        public responses: bookingResponse[] = []
     ) { }
 }

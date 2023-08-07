@@ -1,9 +1,9 @@
 //testfile
 import { Customer } from './models/Customer';
-import { Task } from './models/Task';
+import { bookingTask } from './models/Task';
 import { Partner } from './models/Partner';
-import { taskRequest } from './models/Request';
-import { taskResponse } from './models/Response';
+import { bookingRequest } from './models/Request';
+import { bookingResponse } from './models/Response';
 
 //Controltest - this should always pass!
 it("hey dummy", ()=>{
@@ -39,7 +39,7 @@ it("A response can access its own request", ()=>{
 describe('Class relations tests', () => {
     it("A task can access its own customer", () => {
         const customer = new Customer(1, "John");
-        const task = new Task(1, "Task1", customer);
+        const task = new bookingTask(1, "Task1", customer);
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
         expect(task.customer).toBe(customer);
     })
@@ -47,9 +47,9 @@ describe('Class relations tests', () => {
     it("A request can access its own task", () => {
         const partner = new Partner(1, "Partner1");
         const customer = new Customer(2, "Jane");
-        const task = new Task(2, "Task2", customer);
+        const task = new bookingTask(2, "Task2", customer);
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
-        const request = new taskRequest(1, partner, task);
+        const request = new bookingRequest(1, partner, task);
         partner.requests ? partner.requests.push(request) : partner.requests = [request];
         expect(request.task).toBe(task);
     })
@@ -57,19 +57,19 @@ describe('Class relations tests', () => {
     it("A response can access its own request", () => {
         const partner = new Partner(2, "Partner2");
         const customer = new Customer(3, "Jill");
-        const task = new Task(3, "Task3", customer);
+        const task = new bookingTask(3, "Task3", customer);
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
-        const request = new taskRequest(2, partner, task);
+        const request = new bookingRequest(2, partner, task);
         partner.requests ? partner.requests.push(request) : partner.requests = [request];
-        const response = new taskResponse(1, request, true);
+        const response = new bookingResponse(1, request, true);
         request.responses ? request.responses.push(response) : request.responses = [response];
         expect(response.request).toBe(request);
     })
 
     it("A customer can access their tasks ", () => {
         const customer = new Customer(4, "Jack");
-        const task1 = new Task(4, "Task4", customer);
-        const task2 = new Task(5, "Task5", customer);
+        const task1 = new bookingTask(4, "Task4", customer);
+        const task2 = new bookingTask(5, "Task5", customer);
         customer.tasks ? customer.tasks.push(task1, task2) : customer.tasks = [task1, task2];
         expect(customer.tasks).toContain(task1);
         expect(customer.tasks).toContain(task2);
@@ -77,11 +77,11 @@ describe('Class relations tests', () => {
 
     it("A partner can access their requests", () => {
         const customer = new Customer(5, "Julia");
-        const task = new Task(6, "Task6", customer);
+        const task = new bookingTask(6, "Task6", customer);
         customer.tasks ? customer.tasks.push(task) : customer.tasks = [task];
         const partner = new Partner(3, "Partner3");
-        const request1 = new taskRequest(5, partner, task);
-        const request2 = new taskRequest(6, partner, task);
+        const request1 = new bookingRequest(5, partner, task);
+        const request2 = new bookingRequest(6, partner, task);
         partner.requests ? partner.requests.push(request1, request2) : partner.requests = [request1, request2];
         expect(partner.requests).toContain(request1);
         expect(partner.requests).toContain(request2);

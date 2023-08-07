@@ -1,9 +1,9 @@
 //Ideally named "Response" but that conflicts with some existing stuff"
-import { taskRequest } from './Request';
-export class taskResponse {
+import { bookingRequest } from './Request';
+export class bookingResponse {
     constructor(
         public id: number,
-        public request: taskRequest,
+        public request: bookingRequest,
         public isDelegated: boolean
     ) { }
 }
