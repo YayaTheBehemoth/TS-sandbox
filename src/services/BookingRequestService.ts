@@ -13,18 +13,32 @@ export class BookingRequestService {
       this.db = db;
   }
   async createBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest> {
-    // TODO: implement the create logic
+    let NewBookingRequest = new bookingRequest(id, partner, task, responses);
+    this.db.bookingRequests.requestdata.push(NewBookingRequest);
+    return NewBookingRequest;
   }
 
   async getBookingRequest(id: number): Promise<bookingRequest | null> {
-    // TODO: implement the read logic
+    let bookingRequest = this.db.bookingRequests.requestdata.find(c => c.id === id);
+    return bookingRequest|| null;
   }
 
-  async updateBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest> {
-    // TODO: implement the update logic
+  async updateBookingRequest(id: number, partner: Partner, task: bookingTask, responses: bookingResponse[]): Promise<bookingRequest| null> {
+    this.db.bookingRequests.requestdata.forEach(bookingRequest => {
+      if (bookingRequest.id === id) {
+        bookingRequest.partner = partner;
+        bookingRequest.task = task;
+        bookingRequest.responses = responses;
+      }
+    });
+    return this.getBookingRequest(id);
   }
 
   async deleteBookingRequest(id: number): Promise<void> {
-    // TODO: implement the delete logic
+    this.db.bookingRequests.requestdata.forEach(bookingRequest => {
+      if (bookingRequest.id === id) {
+        this.db.bookingRequests.requestdata.splice(this.db.bookingRequests.requestdata.indexOf(bookingRequest), 1);
+      }
+    });
   }
 }

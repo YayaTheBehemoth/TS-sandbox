@@ -71,7 +71,7 @@ export class MockDB {
 
 }
   */  
- 
+ //Disregard previous code, this is the actual mockDB.ts
 class CustomerTable {
     customerdata: Customer[] = [];
 }

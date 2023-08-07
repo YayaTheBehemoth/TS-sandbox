@@ -12,7 +12,9 @@ export class CustomerService {
       this.db = db;
   }
   async createCustomer(id: number, name: string, tasks: bookingTask[]): Promise<Customer> {
-    // TODO: implement the create logic
+    let newCustomer = new Customer(id, name, tasks);
+    this.db.customers.customerdata.push(newCustomer);
+    return newCustomer;
   }
 
   async getCustomer(id: number): Promise<Customer | null> {
@@ -20,11 +22,22 @@ export class CustomerService {
     return customer || null;
   }
 
-  async updateCustomer(id: number, name: string, tasks: bookingTask[]): Promise<Customer> {
-    // TODO: implement the update logic
+  async updateCustomer(id: number, name: string, tasks: bookingTask[]): Promise<Customer| null> {
+    this.db.customers.customerdata.forEach(customer => {
+      if (customer.id === id) {
+        customer.name = name;
+        customer.tasks = tasks;
+      }
+    });
+    return this.getCustomer(id);
   }
 
   async deleteCustomer(id: number): Promise<void> {
-    // TODO: implement the delete logic
+    
+    this.db.customers.customerdata.forEach(customer => {
+      if (customer.id === id) {
+        this.db.customers.customerdata.splice(this.db.customers.customerdata.indexOf(customer), 1);
+      }
+    });
   }
 }
