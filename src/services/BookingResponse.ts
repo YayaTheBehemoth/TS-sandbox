@@ -20,7 +20,7 @@ export class BookingResponseService {
     let NewBookingResponse = new bookingResponse(id,partner,request, answeredAt, isDelegated, comment);
     this.db.bookingResponses.responsedata.push(NewBookingResponse);
     let requestToRespondTo = await this.bookingRequestService.getBookingRequest(request.id);
-    if (requestToRespondTo) {
+    if (!(requestToRespondTo === null)) {
       requestToRespondTo.responses = NewBookingResponse;
   }
 
