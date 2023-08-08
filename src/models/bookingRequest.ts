@@ -8,7 +8,7 @@ export class bookingRequest extends Request {
         id: number,
         public partner: Partner,
         public task: bookingTask,
-        public responses?: bookingResponse
+        public responses: bookingResponse []=[]
     ) {
         super(id);
      }

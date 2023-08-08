@@ -20,25 +20,31 @@ export class BookingResponseService {
     let NewBookingResponse = new bookingResponse(id,partner,request, answeredAt, isDelegated, comment);
     this.db.bookingResponses.responsedata.push(NewBookingResponse);
     let requestToRespondTo = await this.bookingRequestService.getBookingRequest(request.id);
+   
     if (!(requestToRespondTo === null)) {
-      requestToRespondTo.responses = NewBookingResponse;
+      requestToRespondTo.responses = [NewBookingResponse];
+      //requestToRespondTo.responses ?  : requestToRespondTo.responses = [NewBookingResponse]; //make it so that a new response is added to the request's responses array
   }
 
-    /*
-    NewBookingResponse.request.responses ? NewBookingResponse.request.responses.push(NewBookingResponse) : NewBookingResponse.request.responses = [NewBookingResponse]; //make it so that a new response is added to the request's responses array
-    */
+   
     return NewBookingResponse;
   }
   
   async getBookingResponse(id: number): Promise<bookingResponse | null> {
     let bookingRepsonse = this.db.bookingResponses.responsedata.find(c => c.id === id);
+    
+
+ 
     return bookingRepsonse|| null;
   }
 
-  async updateBookingResponse(id: number, request: bookingRequest): Promise<bookingResponse| null> {
+  async updateBookingResponse(id: number, request: bookingRequest,answeredAt:Date,isDelegated: boolean,comment:string): Promise<bookingResponse| null> {
     this.db.bookingResponses.responsedata.forEach(bookingResponse => {
       if (bookingResponse.id === id) {
         bookingResponse.request = request;
+        bookingResponse.answeredAt = answeredAt;
+        bookingResponse.isDelegated = isDelegated;
+        bookingResponse.comment = comment;
       }
     });
     return this.getBookingResponse(id);
@@ -60,4 +66,7 @@ export class BookingResponseService {
     });
     return this.getBookingResponse(id);
   }
+  
 }
+
+

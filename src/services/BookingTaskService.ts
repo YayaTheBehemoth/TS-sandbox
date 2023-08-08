@@ -13,10 +13,11 @@ export class BookingTaskService {
   constructor(db: MockDB) {
       this.db = db;
   }
-  async createBookingTask(id: number, name: string, taskStatus:TaskStatus,customer: Customer, requests: bookingRequest[]): Promise<bookingTask> {
-    let newBookingTask = new bookingTask(id, name, taskStatus,customer, requests);
+  async createBookingTask(id: number, name: string, taskStatus:TaskStatus,customer: Customer): Promise<bookingTask> {
+    let newBookingTask = new bookingTask(id, name, taskStatus,customer);
     this.db.bookingTasks.taskdata.push(newBookingTask);
-    customer.tasks ? customer.tasks.push(newBookingTask) : customer.tasks = [newBookingTask]; //make it so that a new task is added to the customer's tasks array
+    customer.tasks.push(newBookingTask);
+    //customer.tasks ? customer.tasks.push(newBookingTask) : customer.tasks = [newBookingTask]; //make it so that a new task is added to the customer's tasks array
     return newBookingTask;
   }
 
@@ -25,10 +26,11 @@ export class BookingTaskService {
     return bookingTask|| null;
   }
 
-  async updateBookingTask(id: number, name: string, customer: Customer, requests: bookingRequest[]): Promise< bookingTask| null> {
+  async updateBookingTask(id: number, name: string,TaskStatus: TaskStatus, customer: Customer, requests: bookingRequest[]): Promise< bookingTask| null> {
     this.db.bookingTasks.taskdata.forEach(bookingTask => {
       if (bookingTask.id === id) {
         bookingTask.name = name;
+        bookingTask.status = TaskStatus;
         bookingTask.customer = customer;
         bookingTask.requests = requests;
       }
